@@ -1,0 +1,307 @@
+\documentclass{report}
+\usepackage{preamble}
+\newtheorem{Def}{Definition}[chapter]
+\newtheorem{Lem}{Lemma}[chapter]
+\newtheorem{Corr}{Korrollar}[chapter]                                           
+\newtheorem{Thrm}{Satz}[chapter]                                                         
+\newtheorem*{Bem}{Bemerkung}
+\newtheorem*{Ex}{Beispiel}
+
+\title{Index-Theorie Notizen WiSe22/23}
+\author{Matthias Westenfelder}
+\date{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\chapter{Vektorbündel und Chern-Weil Theorie}
+\section{Vektorbündel und Differentialformen}
+
+\section{Zusammenhänge}
+
+\begin{Def}[E-wertige Differentialformen]
+    Wir definieren den Ring der Vektor-wertigen Differentialformen als
+    $$\Omega^*(M,E) = \Cinf{M}{\Lambda^* T^*M \o E}$$
+\end{Def}
+
+\begin{Def}[Zusammenhang]
+    Sei $E$ ein Vektorbündel auf $M$ dann nenen wir eine $\R$-lineare Abbildung
+    $$\Conn{M}{E}$$
+    so dass gilt: 
+    $$\nabla(fs) = df \o s + f \nabla(s)$$
+    Diese Abbildung lässt sich eindeutig erweitern zu:
+    $$\Omega^*(M,E) \xrightarrow{\nabla^*} \Omega^{*+1}(M,E)$$
+    via Leibnitz-Regel:
+    $$\nabla^k(\w \o s) = d\w \o s + (-1)^{|\w|} \w \wedge \nabla(s)$$
+    wobei $\w \in \Omega^{k-1}(M)$ und 
+    
+    $$\w \wedge \nabla(\begin{bmatrix} s_1\\ \vdots\\ s_n \end{bmatrix}) = 
+    \begin{bmatrix} 
+        \w \wedge (ds_1 + \sum_{i} \w_{i1}) \\ 
+        \vdots \\
+        \w \wedge (ds_n + \sum_{i} \w_{in}) 
+         \end{bmatrix} \in \Omega^k(M,E)$$
+
+    Dies induziert eine kovariante Ableitung:
+    \begin{align*}
+        \nabla:\Cinf{M}{TM} \x& \Cinf{M}{E} \lra \Cinf{M}{E} \\
+        &(X,s) \lmt ev(\nabla(s),X) = \nabla_X(s)
+    \end{align*}
+\end{Def}
+
+\begin{Bem}
+    REVIEW THIS LATER!
+    Lokal sieht ein Zusammenhang folgender Maßen aus, für lokalen Rahmen $(b_1,\ldots,b_n)$
+    $$\v(b_j) = \sum_i \w_{ij} \o b_{i}$$
+    wobei $\w_{ij} \in \Omega^1(M)$
+    also folgt insgesamt:
+    $$\v(s) = \v( \sum_i s_i b_i) = \sum_i ds_i \o b_i + \sum_i\sum_j \w_{ij} \o b_j 
+     =  \sum_j \big(ds_j + \sum_i \w_{ij}\big) \o b_j  $$
+    was zeigt dass $\v \in \Omega^1(M,\End(E))$ eine Endomorphismen-Wertige 1-Form ist sowie 
+    $\v = d^E + \w$ mit $\w \in \Omega^1(M) \o \End(E)$
+\end{Bem}
+
+\begin{Ex}
+    $s = s_1 b_1 + s_2 b_2$ und
+    $$\nabla = d + \w = 
+    \begin{bmatrix}
+        d & 0 \\
+        0 & d
+    \end{bmatrix} +
+    \begin{bmatrix}
+        \w_{11} & \w_{12} \\
+        \w_{21} & \w_{22}
+    \end{bmatrix} $$
+
+    $$\Big( 
+    \begin{bmatrix}
+        d & 0 \\
+        0 & d
+    \end{bmatrix} +
+    \begin{bmatrix}
+        \w_{11} & \w_{12} \\
+        \w_{21} & \w_{22}
+    \end{bmatrix} \Big)
+    \begin{bmatrix}
+        s_1 \\
+        s_2
+    \end{bmatrix} 
+    = \begin{bmatrix}
+        ds_1  \\
+        ds_2 
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+    \w_{11}s_1 + \w_{12}s_2 \\
+    \w_{21}s_1 + \w_{22}s_2
+    \end{bmatrix}$$
+
+\end{Ex}
+
+\begin{Ex}[Beispiel Rechnung auf $\CP{n}$]
+
+    ADD THIS LATER!!
+    
+\end{Ex}
+
+\begin{Def}[Krümmungstensor]
+    Wir nennen $R = \nabla^2$ den Riemannschen Krümmungstensor und nennen $\nabla$ flach falls $\nabla^2= 0$
+\end{Def}
+
+
+\begin{Thrm}
+    Sei $\Conn{M}{E}$ ein Zusammenhang dann ist $R$ ein Tensor. 
+\end{Thrm}
+\begin{proof}
+    \begin{align*}
+        &\nabla^2(fs) = \nabla(\nabla(fs)) = \nabla(df \o s + f\nabla(s))\\
+        &= d(df) \o s - df \o \nabla(s) + df \o \nabla(s) + f\nabla^2(s) = f \nabla^2(s)
+    \end{align*}
+\end{proof}
+
+\begin{Bem}[lokale Darstellung der Krümmung]
+    Sei \\
+    $\nabla = d + \w \in \Omega^1(M,\End(E))$ Zusammenhangs 1-Form mit lokalem Rahmen $b = (b_1,\ldots,b_n)$
+    Dann gilt:
+    \begin{align*}
+        K(b_i) &= \nabla(\sum_j \w_{ij} \o b_j) = \sum_{j} d\w_{ij} \o b_j - \sum_j \w_{ij} \wedge \nabla(b_j)\\
+        &= \sum_j d\w_{ij} \o b_j - \sum_{jk} w_{ij} \wedge (\w_{jk} \o b_k)\\
+        &= \big((d\w)\o s - (\w \wedge \w)\big)_i = \big((d\w - \w \wedge \w) \o b\big)_i
+    \end{align*}
+
+    Wir nennen $\Omega = d\w + \w \wedge \w \in \Omega^2(M,\End(E))$ dann eine \textbf{Krümmungs 2-Form}    
+    Als Konsequenz dessen:
+    Da $$ d(\alpha \wedge \beta) = d\alpha \wedge \beta + (-1)^{|\alpha|}\alpha \wedge d\beta$$ und 
+    $$\alpha \wedge \beta = (-1)^{|\alpha||\beta|} \beta \wedge \alpha$$ liefern
+    \begin{align*}
+        \Lra d\Omega &= d(d\w - \w \wedge \w) = d^2\w - d(\w \wedge \w) = -(d\w \wedge \w - \w \wedge d\w)\\
+    &= -(d\w \wedge w -(-1)^{2*1} d\w \wedge \w) = -(d\w \wedge w - d\w \wedge \w) = 0 
+    \end{align*} 
+\end{Bem}
+
+\begin{Thrm}
+    Sei $E$ ein Vektorbündel, $M$ eine Mannigfaltigkeit dann gilt: $\Conn{M}{E}$ Zusammenhang existiert und
+    $$\nabla, A \in \Omega^1(M,End(E)) \Lra \nabla + A \text{ ist Zusammenhang} $$
+\end{Thrm}
+
+\begin{Def}[Riemannsche Metrik]
+    Wir nennen $g \in \Cinf{M}{Sym^2(T^*M)}$ eine Riemannsche Metrik falls:
+    \begin{itemize}
+        \item $g_{ij} = g_{ji}$
+        \item $g(X,Y) = g_{ij}X^iY^j$
+        \item $g(X,X) \geq 0 \forall X$
+    \end{itemize}
+    lokal gilt also $g = \sum_{ij} g_{ij} dx^i \o dx^j$
+\end{Def}
+
+\begin{Def}[Lie Klammer]
+    Wir definieren die Lie Klammer als
+    \begin{align*}
+        \Cinf{M}{TM} \x \Cinf{M}{TM}& \lra \Cinf{M}{TM} \\
+        (X,Y)& \lmt [X,Y] 
+    \end{align*}
+    wobei $[X,Y](f) = X(Y(f)) - Y(X(f))$ 
+\end{Def}
+
+\begin{Def}[metrischer Zusammenhang]
+    Sei\\
+    $\Conn{M}{TM}$ Zusammenhang, $X \in \Cinf{M}{TM}$ falls gilt:
+    $$X(g(Y,Z)) = g(\nabla_XY,Z) + g(Y,\nabla_XZ)$$
+    dann nennen wir $\nabla$ metrisch
+    
+\end{Def}
+
+\begin{Def}[torsionsfreier Zusammenhang]
+    Sei\\
+    $\Conn{M}{TM}$ Zusammenhang, $X \in \Cinf{M}{TM}$ falls gilt:
+    $$[X,Y] =  \nabla_XY - \nabla_YX$$
+    dann heißt $\nabla$ torsionsfrei. 
+\end{Def}
+
+\subsection*{Algebraische Konstruktionen von Zusammenhängen}
+\begin{itemize}
+    \item $\nabla^{E_1 \oplus E_2}(s_1 + s_2) = \nabla^{E_1}(s_1) + \nabla^{E_2}(s_2)$
+    \item $\nabla^{E_1 \o E_2}(s_1 \o s_2) = \nabla^{E_1}(s_1) \o s_2 + s_1 \o \nabla^{E_2}(s_2)$
+\end{itemize}
+
+
+\section{Bordismen und Charakteristische Klassen}
+
+\subsection*{Chern-Klassen}
+
+\begin{Def}[Invariantes Polynom]
+    Eine Abbildung
+    $$ P: \C^{n \x n} \lra \C$$ heißt Invariantes Polynom falls:
+    $P \in \C[X_{11} \ldots X_{nn}]$ und 
+    $$\forall X,Y \in \C^{n\x n}: P(XY) = P(YX)$$ 
+    Diese Definition ist genau das was notwendig ist um eine Basis unabhängige Abbildung von Matrizen zu bekommen:
+    $$ P \text{ invariant } \Leftrightarrow \forall T \in \Gl_n(\C): P(X) = P(T^{-1}XT)$$ 
+\end{Def}
+
+\begin{Bem}
+    $P$ invariantes Polynom $\Lra$ $P$ induziert wohldefinierte Abbildung 
+    $$\Cinf{M}{\End(E)} \xrightarrow{P_*} \Cinf{M}{\underline{\C}}$$
+\end{Bem}
+
+\begin{Def}[Elementar Symmetrische Polynome]
+    $ P_i: \C^{n \x n} \lra \C$ mit $0 \leq i \leq n$ definiert durch 
+    $$\det(t+X) = \sum_{i=0}^{n} t^{n-i}P_i(X)$$
+    heißt $i$tes Elementar Symmetrisches Polynom.
+\end{Def}
+
+\begin{Thrm}
+   Sei $K = \nabla^2$ Krümmung von $\nabla$ auf $\C$-Vektorbündel und $P$ Invariantes Polynom
+   $$\Lra P(K) \in \Omega^{2*}(M,\C) \text{ mit } dP(K) = 0 \Lra \big[P(K)\big] \in H^{2*}(M;\C)$$
+\end{Thrm}
+
+\begin{Def}[Chern Klasse]
+   Sei $E$ $\C$-Vektorbündel, $\nabla$ Zusammenhang auf $E$, $K = \nabla^2$ Krümmung
+   $$c_k(E) = \big[P_k(\frac{i}{2\pi}K)\big] \in H^{2k}(M;\C)$$ heißt die $k$te-Chernklasse von $E$ 
+\end{Def}
+
+\begin{Thrm}[Eigenschaften von Chernklassen]
+    $\phi: M \lra N$, $E \ra N$ dann gilt $\phi^*(E)$ ist Bündel über $M$
+    \begin{itemize}
+        \item $c_k(\phi^*E) = \phi^*(c_k(E))$
+        \item $c_k(E_1 \oplus E_2) = \sum_{i+j=k}c_i(E_1)c_j(E_2)$
+        \item $\int_{\CP{1}}c_1(\mc{O}_{\CP{1}}(1)) = 1$
+    \end{itemize} 
+\end{Thrm}
+\subsection*{Geschlechter}
+\begin{Def}[stabile fast komplexe Struktur]
+   Eine \textbf{stabile fast komplexe Struktur} auf einer kompakten orientierten Mannigfaltigkeit $M$ ist ein Paar $(n, J)$ with $n \in \N$ wobei
+   $$ J \in \End(TM \oplus \underline{\R^n}) \text{ mit } J^2 = - id_{TM}$$
+   Die zu $(n,J)$ \textbf{konjugierte Struktur} ist gegeben durch $(n,-J)$
+   Zwei stabile fast komplexe Strukturen $(n_0,J_0),(n_1,J_1)$ sind \textbf{äquivalent} falls:
+   \begin{align*}
+    \exists m_0,m_1 \in \N: \exists \varphi \in \Hom(TM \oplus \underline{\R^{n_0}} \oplus \C^{m_0},TM\oplus\underline{\R^{n_1}}\oplus\C^{m_1})\\
+    \text{ mit  } \varphi \circ (J_0 \oplus i) \circ \varphi^{-1} = J_1 \oplus i 
+\end{align*}
+Oder in Worten die komplexe Stabilisierung von $J_0$ lässt sich per Konjugation in die komplexe Stabilisierung von $J_1$ verwandeln.
+\end{Def}
+\begin{Ex}
+    komplexe Mannigfaltigkeiten haben durch Faserweise Multiplikation mit $i$ eine komplexe Struktur.
+\end{Ex}
+
+\begin{Bem}
+    Sei $M$ kompakt, orientierte Mannigfaltigkeit mit Rand dann folgt $\del M$ ist $(n-1)$ dimensionale Mannigfaltigkeit mit
+    $$TM|_{\del M} \iso T(\del M) \oplus \R\nu$$ wobei $\nu$ eine äußere Normale ist.
+    Eine stabile fast komplexe Struktur auf $M$ induziert eine stabile fast komplexe Struktur auf $\del M$.
+    Wir können also eine Äquivalenz von geschlossenen stabil fast komplexen Mannigfaltigkeiten definieren.
+    Wir definieren:
+    \begin{align*}
+        &(M,n,J) \sim (M',n',J')\\
+        & \LRA \exists (N,n_N,J_N): \del (N,n_N,J_N) = (M,n,J) \oplus (M',n',-J')
+    \end{align*}
+    Wir nennen dann $(M,n,J)$ und $(M',n',J')$ \textbf{bordant}.
+\end{Bem}
+
+\begin{Def}[Bordismen Ringe]
+    Die Menge der Äquivalenz-Klassen von $n$ dimensionalen stabil fast komplexen Mannigfaltigkeiten 
+    wird mit $\Omega^{\U}_n$ bezeichnet und besitzt Addition sowie graduierte Multiplikation.
+    $$[(M,n,J)] + [(M',n',J')] = [(M + M',...)]$$
+    $$[(M,n,J)][(M',n',J')] = [(M \times M', ...)]$$
+    wir nennen $\Omega^{\U}$ den \textbf{Komplexe Bordismenring} und $\Omega^{\SO}$ den \textbf{orientieren Bordismenring}.
+    (wobei $\Omega^{\SO}$ das Bild des Vergissfunktors der die stfk Struktur vergisst ist.) 
+\end{Def}
+
+\begin{Def}[Hirzebruch-Geschlecht]
+Ein \textbf{orientiertes/komplexes - Hirzebruch Geschlecht} ist ein Ring-Homomorphismus
+$$ \varphi: \Omega^{\SO} \lra \R$$
+$$ \psi: \Omega^{\U} \lra \R$$
+\end{Def}
+
+\begin{Ex}
+    Die Signatur ist ein Geschlecht.
+    $[M] \lmt sign(M)$ für $dim(M) = 4n$ und $[M] \lmt 0$ sonst 
+\end{Ex}
+
+\begin{Thrm}
+   $$\Omega^{\SO} \o_{\Z} \Q \iso \Q[\CP{2}, \ldots, \CP{2n}]$$ 
+   $$\Omega^{\U} \o_{\Z} \Q \iso \Q[\CP{1}, \ldots, \CP{n}]$$ 
+\end{Thrm}
+
+\begin{Def}[Multiplikative Sequenz]
+    
+\end{Def}
+
+\begin{Def}[Charakteristische Folge]
+    
+\end{Def}
+
+\begin{Thrm}
+
+\end{Thrm}
+
+\begin{Thrm}
+
+\end{Thrm}
+
+
+
+
+\chapter{Clifford-Algebras}
+
+\end{document}
